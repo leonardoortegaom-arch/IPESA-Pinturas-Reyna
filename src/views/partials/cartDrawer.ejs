@@ -1,0 +1,50 @@
+<!-- Carrito global -->
+<div class="cartDrawer" id="cartDrawer" aria-hidden="true">
+  <div class="cartDrawer__backdrop" id="cartBackdrop"></div>
+
+  <aside class="cartDrawer__panel" aria-label="Carrito de compras">
+    <header class="cartDrawer__header">
+      <div>
+        <h3 class="cartDrawer__title">Mi carrito</h3>
+        <p class="cartDrawer__count muted" id="cartCountText">0 productos</p>
+      </div>
+
+      <button
+        class="cartDrawer__close"
+        type="button"
+        id="closeCartBtn"
+        aria-label="Cerrar carrito"
+      >
+        ✕
+      </button>
+    </header>
+
+    <div class="cartDrawer__body" id="cartItems"></div>
+
+    <footer class="cartDrawer__footer">
+      <div class="cartSummary">
+        <div class="cartSummary__row">
+          <span>Subtotal</span>
+          <strong id="cartSubtotal">$ 0.00</strong>
+        </div>
+
+        <div class="cartSummary__row cartSummary__row--total">
+          <span>Total</span>
+          <strong id="cartTotal">$ 0.00</strong>
+        </div>
+      </div>
+
+      <div class="cartDrawer__actions" id="cartEmptyActions">
+        <button class="btnGhost btnGhost--full" type="button" id="clearCartBtn">
+          Vaciar carrito
+        </button>
+
+        <button class="btnPrimary btnPrimary--full" type="button" id="checkoutBtn">
+          Continuar compra
+        </button>
+      </div>
+
+      
+    </footer>
+  </aside>
+</div>

@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title><%= title %></title>
+  <link rel="stylesheet" href="/css/styles.css" />
+</head>
+<body>
+
+<%- include("../partials/siteHeader", {
+  topNav,
+  activePath: null,
+  disableSearchSubmit: false,
+  searchInputId: "searchInput",
+  searchQuery,
+  searchProducts
+}) %>
+
+ <main>
+    <!-- Hero / Carrusel -->
+    <section class="hero2">
+      <div class="hero2__card" aria-label="Banner principal">
+        <div class="hero2__track" id="heroTrack">
+          <% heroSlides.forEach((s, i) => { %>
+            <article class="hero2__slide <%= i === 0 ? 'is-active hero2__slide--intro' : '' %>">
+              <div class="hero2__media">
+                <span class="hero2__badge"><%= s.badge %></span>
+                <img src="<%= s.img %>" alt="<%= s.title %>">
+              </div>
+
+             <div class="hero2__content">
+                   <p class="hero2__kicker"><%= s.kicker %></p>
+                   <h1 class="hero2__title"><%= s.title %></h1>
+                  <p class="hero2__subtitle"><%= s.subtitle %></p>
+                  <p class="hero2__desc"><%= s.desc %></p>
+
+                <div class="hero2__actions">
+                  <a class="btnPrimary" href="<%= s.cta1.href %>"><%= s.cta1.label %></a>
+                  <a class="btnGhost" href="<%= s.cta2.href %>"><%= s.cta2.label %></a>
+               </div>
+              </div>
+            </article>
+          <% }) %>
+        </div>
+
+        <button class="hero2__nav hero2__nav--left" id="prevBtn" aria-label="Anterior">‹</button>
+        <button class="hero2__nav hero2__nav--right" id="nextBtn" aria-label="Siguiente">›</button>
+
+        <div class="hero2__footer">
+          <div class="dots" id="dots"></div>
+          <div class="counter" id="counter">1 / <%= heroSlides.length %></div>
+          <div class="progress"><span id="progressBar"></span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Accesos rápidos -->
+    <section class="homeSection container">
+      <div class="sectionHead">
+        <p class="sectionKicker">Nuestras líneas</p>
+        <h2 class="sectionTitle">Encuentra la pintura ideal para cada proyecto</h2>
+      </div>
+
+      <div class="quickCategories">
+        <a href="/productos?categoria=vinilicas" class="quickCard">
+          <h3>Vinílicas</h3>
+          <p>Soluciones para interiores y exteriores con excelente cobertura.</p>
+        </a>
+
+        <a href="/productos?categoria=esmaltes" class="quickCard">
+          <h3>Esmaltes</h3>
+          <p>Acabados durables con apariencia uniforme y profesional.</p>
+        </a>
+
+        <a href="/productos?categoria=automotriz" class="quickCard">
+          <h3>Automotriz</h3>
+          <p>Productos especializados para procesos de repintado y acabado.</p>
+        </a>
+
+        <a href="/productos?categoria=selladores" class="quickCard">
+          <h3>Selladores</h3>
+          <p>Preparación y protección para un mejor rendimiento del sistema.</p>
+        </a>
+      </div>
+    </section>
+
+    <!-- Productos destacados -->
+    <section class="homeSection container">
+      <div class="sectionHead sectionHead--row">
+        <div>
+          <p class="sectionKicker">Destacados</p>
+          <h2 class="sectionTitle">Productos recomendados</h2>
+        </div>
+        <a href="/productos" class="sectionLink">Ver catálogo completo</a>
+      </div>
+
+      <div class="featuredGrid">
+        <% (featuredProducts || []).forEach(p => { %>
+          <article class="featuredCard">
+            <a href="/productos/<%= p.id %>" class="featuredCard__imgWrap">
+              <img src="<%= p.img %>" alt="<%= p.nombre %>" class="featuredCard__img" />
+            </a>
+
+            <div class="featuredCard__body">
+              <p class="featuredCard__line"><%= p.linea %></p>
+              <a href="/productos/<%= p.id %>" class="featuredCard__title"><%= p.nombre %></a>
+
+              <div class="featuredCard__price">
+                $ <%= Number(p.precio || 0).toLocaleString("es-MX", { minimumFractionDigits: 2, maximumFractionDigits: 2 }) %>
+              </div>
+
+              <div class="featuredCard__stock">
+                <% if (p.stock > 0) { %>
+                  Disponible: <strong><%= p.stock %></strong>
+                <% } else { %>
+                  Agotado
+                <% } %>
+              </div>
+
+              <div class="featuredCard__actions">
+                <a href="/productos/<%= p.id %>" class="btnGhost">Ver más</a>
+                <button
+                  class="btnPrimary"
+                  type="button"
+                  data-home-add
+                  data-id="<%= p.id %>"
+                  data-name="<%= p.nombre %>"
+                  data-price="<%= p.precio %>"
+                  data-img="<%= p.img %>"
+                  data-pres="<%= p.presentacion %>"
+                  <%= p.stock <= 0 ? "disabled" : "" %>
+                >
+                  <%= p.stock > 0 ? "Agregar" : "Sin stock" %>
+                </button>
+              </div>
+            </div>
+          </article>
+        <% }) %>
+      </div>
+    </section>
+
+    <!-- Beneficios -->
+    <section class="homeSection homeSection--soft">
+      <div class="container">
+        <div class="sectionHead">
+          <p class="sectionKicker">¿Por qué elegirnos?</p>
+          <h2 class="sectionTitle">Soluciones pensadas para clientes y profesionales</h2>
+        </div>
+
+        <div class="benefitsGrid">
+          <article class="benefitCard">
+            <h3>Amplia variedad</h3>
+            <p>Líneas decorativas, automotrices y complementarias para distintos usos.</p>
+          </article>
+
+          <article class="benefitCard">
+            <h3>Documentación técnica</h3>
+            <p>Consulta fichas técnicas, hojas de seguridad y cartas de color por producto.</p>
+          </article>
+
+          <article class="benefitCard">
+            <h3>Control de disponibilidad</h3>
+            <p>Visualiza existencia en unidades y encuentra productos disponibles fácilmente.</p>
+          </article>
+
+          <article class="benefitCard">
+            <h3>Experiencia moderna</h3>
+            <p>Explora el catálogo con una interfaz clara, visual y enfocada en la compra.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA final -->
+    <section class="homeCTA container">
+      <div class="homeCTA__card">
+        <div>
+          <p class="sectionKicker">Catálogo completo</p>
+          <h2 class="sectionTitle">Descubre todos nuestros productos y encuentra el ideal para tu uso</h2>
+        </div>
+
+        <div class="homeCTA__actions">
+          <a href="/productos" class="btnPrimary">Explorar productos</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="/js/cart.js"></script>
+  <script src="/js/hero.js"></script>
+  
+  <script>
+    document.querySelectorAll("[data-home-add]").forEach(btn => {
+      btn.addEventListener("click", () => {
+        window.Cart?.addItem({
+          id: btn.dataset.id,
+          name: btn.dataset.name,
+          price: Number(btn.dataset.price || 0),
+          img: btn.dataset.img,
+          pres: btn.dataset.pres
+        });
+      });
+    });
+  </script>
+
+  <%- include("../partials/footer") %>
+  <%- include("../partials/cartDrawer") %>
+  <script src="/js/search-autocomplete.js"></script>
+</body>
+</html>

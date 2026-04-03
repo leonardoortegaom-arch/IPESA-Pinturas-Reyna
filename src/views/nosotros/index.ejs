@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title><%= title %></title>
+  <link rel="stylesheet" href="/css/styles.css" />
+</head>
+<body>
+
+<%- include("../partials/siteHeader", {
+  topNav,
+  activePath,
+  disableSearchSubmit,
+  searchInputId,
+  searchQuery,
+  searchProducts
+}) %>
+
+<main class="aboutPage">
+  <!-- HERO -->
+  <section class="aboutHero">
+    <div class="container aboutHero__row">
+      <div class="aboutHero__text">
+        <p class="aboutHero__kicker">Nuestra visión es de colores</p>
+        <h1 class="aboutHero__title">Pinturas y recubrimientos para dar vida a tus espacios</h1>
+        <p class="aboutHero__lead">
+          Somos una empresa mexicana con más de cinco décadas de experiencia desarrollando soluciones
+          de pintura y recubrimientos con enfoque en calidad, desempeño y servicio.
+        </p>
+
+        <div class="aboutHero__cta">
+          <a class="btnPrimary" href="/productos">Ver productos</a>
+          <a class="btnGhost" href="/sucursales">Ver Sucursal</a>
+        </div>
+
+        <div class="aboutBadges">
+          <span class="badge">+52 años de experiencia</span>
+          <span class="badge">100% mexicana</span>
+          <span class="badge">Calidad ISO 9001</span>
+        </div>
+      </div>
+
+      <div class="aboutHero__card">
+        <div class="aboutStats">
+          <div class="stat">
+            <div class="stat__num">+52</div>
+            <div class="stat__txt">Años de experiencia</div>
+          </div>
+          <div class="stat">
+            <div class="stat__num">ISO</div>
+            <div class="stat__txt">Gestión de calidad (9001)</div>
+          </div>
+          <div class="stat">
+            <div class="stat__num">MX</div>
+            <div class="stat__txt">Empresa 100% mexicana</div>
+          </div>
+        </div>
+
+        <p class="aboutHero__note">
+          Comprometidos con fabricar, comercializar y distribuir productos que respondan
+          a necesidades decorativas e industriales con seguridad y eficiencia.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- QUIÉNES SOMOS -->
+  <section class="aboutSection container">
+    <div class="aboutGrid">
+      <div class="aboutBlock">
+        <h2>¿Quiénes somos?</h2>
+        <p>
+          Somos una marca enfocada en soluciones de pintura y recubrimientos para el hogar, la obra,
+          el mantenimiento y el repintado. Nuestra prioridad es ofrecer productos confiables, con
+          alto desempeño y una experiencia clara para el cliente.
+        </p>
+        <p class="muted">
+          La calidad y el servicio son el centro de nuestra forma de trabajar.
+        </p>
+      </div>
+
+      <div class="aboutBlock aboutBlock--soft">
+        <h3>Lo que nos distingue</h3>
+        <ul class="aboutList">
+          <li>Enfoque en rendimiento, cobertura y durabilidad.</li>
+          <li>Soluciones para diferentes superficies y condiciones.</li>
+          <li>Mejora continua y estandarización de procesos.</li>
+          <li>Acompañamiento al cliente: elegir, aplicar y mantener.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- MISIÓN / CALIDAD -->
+  <section class="aboutSection container">
+    <div class="aboutGrid">
+      <div class="aboutBlock aboutBlock--line">
+        <h2>Misión</h2>
+        <p>
+          Aplicamos nuestra experiencia en pinturas y recubrimientos para transformar y dar vida a
+          tus espacios, creando entornos inspiradores y funcionales de forma segura y eficiente.
+        </p>
+      </div>
+
+      <div class="aboutBlock aboutBlock--line">
+        <h2>Calidad</h2>
+        <p>
+          Buscamos mantener un alto estándar de desempeño y servicio, respaldado por un sistema de
+          gestión de calidad con certificación ISO 9001.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- VALORES -->
+  <section class="aboutSection container">
+    <h2 class="aboutCenterTitle">Nuestros valores</h2>
+    <div class="valuesGrid">
+      <article class="valueCard">
+        <h3>Calidad</h3>
+        <p>Productos confiables, consistentes y orientados a resultados.</p>
+      </article>
+      <article class="valueCard">
+        <h3>Innovación</h3>
+        <p>Mejora continua en formulación, procesos y experiencia de uso.</p>
+      </article>
+      <article class="valueCard">
+        <h3>Servicio</h3>
+        <p>Atención cercana y soluciones claras para cada proyecto.</p>
+      </article>
+      <article class="valueCard">
+        <h3>Compromiso</h3>
+        <p>Responsabilidad con clientes, distribuidores y equipos.</p>
+      </article>
+    </div>
+  </section>
+
+  <!-- CTA FINAL -->
+  <section class="aboutCTA">
+    <div class="container aboutCTA__row">
+      <div>
+        <h2>Explora nuestra línea de productos y encuentra la opción ideal para tu espacio.</h2>
+      </div>
+      <div class="aboutCTA__actions">
+        <a class="btnPrimary" href="/productos">Explorar productos</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+  <%- include('../partials/footer') %>
+  <%- include("../partials/cartDrawer") %>
+<script src="/js/cart.js"></script>
+  <script src="/js/search-autocomplete.js"></script>
+
+</body>
+</html>

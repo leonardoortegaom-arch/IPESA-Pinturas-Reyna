@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title><%= title %></title>
+  <link rel="stylesheet" href="/css/styles.css" />
+</head>
+<body>
+
+  <%- include("../partials/siteHeader", {
+  topNav,
+  activePath: "/productos",
+  disableSearchSubmit: false,
+  searchInputId: "searchInput",
+  searchQuery,
+  searchProducts
+}) %>
+
+  <main class="container page">
+    <nav class="breadcrumb">
+      <a href="/">Inicio</a>
+      <span>/</span>
+      <a href="/productos">Productos</a>
+      <span>/</span>
+      <span><%= producto.nombre %></span>
+    </nav>
+
+    <section class="mlDetail">
+      <!-- IZQUIERDA -->
+      <div class="mlDetail__left">
+        <div class="mlDetail__topCard">
+          <div class="mlDetail__info">
+            <p class="mlDetail__linea"><%= producto.linea %></p>
+            <h1 class="mlDetail__title"><%= producto.nombre %></h1>
+
+            <div class="mlDetail__price">
+              $ <%= Number(producto.precio || 0).toLocaleString("es-MX", {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2
+              }) %>
+            </div>
+
+            <div class="mlDetail__shortAttrs">
+              <% if (producto.atributos.length) { %>
+                <% producto.atributos.slice(0, 4).forEach(item => { %>
+                  <span class="pill"><%= item %></span>
+                <% }) %>
+              <% } else { %>
+                <span class="pill"><%= producto.etiqueta %></span>
+              <% } %>
+            </div>
+          </div>
+
+          <div class="mlDetail__gallery">
+            <div class="mlDetail__imageWrap">
+              <img src="<%= producto.img %>" alt="<%= producto.nombre %>" class="mlDetail__image" />
+            </div>
+          </div>
+        </div>
+
+        <section class="mlDetail__section">
+          <h2>Descripción</h2>
+          <p class="mlDetail__desc"><%= producto.descripcion %></p>
+        </section>
+
+        <section class="mlDetail__sectionGrid">
+          <article class="mlCardInfo">
+            <h3>Presentaciones</h3>
+            <% if (producto.capacidades.length) { %>
+              <div class="tagList">
+                <% producto.capacidades.forEach(item => { %>
+                  <span class="tag"><%= item %></span>
+                <% }) %>
+              </div>
+            <% } else { %>
+              <p>No especificadas.</p>
+            <% } %>
+          </article>
+
+          <article class="mlCardInfo">
+            <h3>Acabados</h3>
+            <% if (producto.acabados.length) { %>
+              <div class="tagList">
+                <% producto.acabados.forEach(item => { %>
+                  <span class="tag"><%= item %></span>
+                <% }) %>
+              </div>
+            <% } else { %>
+              <p>No especificados.</p>
+            <% } %>
+          </article>
+
+          <article class="mlCardInfo">
+            <h3>Atributos</h3>
+            <% if (producto.atributos.length) { %>
+              <ul class="featureList">
+                <% producto.atributos.forEach(item => { %>
+                  <li><%= item %></li>
+                <% }) %>
+              </ul>
+            <% } else { %>
+              <p>No especificados.</p>
+            <% } %>
+          </article>
+
+          <article class="mlCardInfo">
+            <h3>Colores disponibles</h3>
+            <% if (producto.colores.length) { %>
+              <div class="tagList">
+                <% producto.colores.forEach(item => { %>
+                  <span class="tag"><%= item %></span>
+                <% }) %>
+              </div>
+            <% } else { %>
+              <p>No especificados.</p>
+            <% } %>
+          </article>
+        </section>
+
+        <section class="mlDetail__section">
+          <h2>Documentación del producto</h2>
+          <div class="mlDetail__docs">
+            <% if (producto.fichaTecnicaUrl) { %>
+              <a href="<%= producto.fichaTecnicaUrl %>" target="_blank" rel="noopener noreferrer" class="btnGhost">Ficha técnica</a>
+            <% } %>
+
+            <% if (producto.fichaColoresUrl) { %>
+              <a href="<%= producto.fichaColoresUrl %>" target="_blank" rel="noopener noreferrer" class="btnGhost">Ficha de colores</a>
+            <% } %>
+
+            <% if (producto.hojaSeguridadUrl) { %>
+              <a href="<%= producto.hojaSeguridadUrl %>" target="_blank" rel="noopener noreferrer" class="btnGhost">Hoja de seguridad</a>
+            <% } %>
+          </div>
+        </section>
+
+        <% if (relacionados && relacionados.length) { %>
+          <section class="mlDetail__section">
+            <h2>Productos relacionados</h2>
+
+            <div class="relatedGrid">
+              <% relacionados.forEach(item => { %>
+                <article class="relatedCard">
+                  <a href="/productos/<%= item.id %>" class="relatedCard__imgWrap">
+                    <img src="<%= item.img %>" alt="<%= item.nombre %>" class="relatedCard__img" />
+                  </a>
+
+                  <div class="relatedCard__body">
+                    <a href="/productos/<%= item.id %>" class="relatedCard__title"><%= item.nombre %></a>
+                    <p class="relatedCard__line"><%= item.linea %></p>
+                    <div class="relatedCard__price">
+                      $ <%= Number(item.precio || 0).toLocaleString("es-MX", {
+                        minimumFractionDigits: 2,
+                        maximumFractionDigits: 2
+                      }) %>
+                    </div>
+                  </div>
+                </article>
+              <% }) %>
+            </div>
+          </section>
+        <% } %>
+      </div>
+
+      <!-- DERECHA -->
+      <aside class="mlDetail__right">
+        <div class="buyBox">
+          <div class="buyBox__status">
+            <% if (producto.stock > 0) { %>
+              <span class="is-available">Stock disponible</span>
+              <strong><%= producto.stock %> unidades</strong>
+            <% } else { %>
+              <span class="is-soldout">Producto agotado</span>
+            <% } %>
+          </div>
+
+          <div class="buyBox__block">
+            <label class="buyBox__label" for="detailColor">Color disponible</label>
+            <select id="detailColor" class="buyBox__select" <%= producto.colores.length ? "" : "disabled" %>>
+              <% if (producto.colores.length) { %>
+                <% producto.colores.forEach(color => { %>
+                  <option value="<%= color %>"><%= color %></option>
+                <% }) %>
+              <% } else { %>
+                <option>No especificado</option>
+              <% } %>
+            </select>
+          </div>
+
+          <div class="buyBox__block">
+            <label class="buyBox__label" for="detailQty">Cantidad</label>
+            <div class="qtyBox">
+              <button type="button" class="qtyBtn" id="qtyMinus">−</button>
+              <input
+                id="detailQty"
+                class="qtyInput"
+                type="number"
+                min="1"
+                max="<%= producto.stock > 0 ? producto.stock : 1 %>"
+                value="1"
+                <%= producto.stock > 0 ? "" : "disabled" %>
+              />
+              <button type="button" class="qtyBtn" id="qtyPlus">+</button>
+            </div>
+          </div>
+
+          <div class="buyBox__actions">
+            <button
+              class="btnPrimary btnPrimary--full"
+              type="button"
+              <%= producto.stock > 0 ? "" : "disabled" %>
+            >
+              Comprar ahora
+            </button>
+
+            <button
+              class="btnGhost btnGhost--full"
+              type="button"
+              id="detailAddBtn"
+              data-id="<%= producto.id %>"
+              data-name="<%= producto.nombre %>"
+              data-price="<%= producto.precio %>"
+              data-img="<%= producto.img %>"
+              data-pres="<%= producto.presentacion %>"
+              <%= producto.stock > 0 ? "" : "disabled" %>
+            >
+              Agregar al carrito
+            </button>
+
+            <button
+              class="btnGhost btnGhost--full detailFavBtn"
+              type="button"
+              id="detailFavBtn"
+              data-fav-detail
+              data-id="<%= producto.id %>"
+              data-name="<%= producto.nombre %>"
+              aria-label="Agregar a favoritos"
+              title="Agregar a favoritos"
+            >
+              <span class="detailFavBtn__icon">♡</span>
+              <span class="detailFavBtn__text">Agregar a favoritos</span>
+            </button>
+          </div>
+
+          <div class="buyBox__payments">
+            <h3>Medios de pago</h3>
+            <div class="paymentBadges">
+              <span class="paymentBadge">Tarjeta de crédito</span>
+              <span class="paymentBadge">Tarjeta de débito</span>
+              <span class="paymentBadge">Efectivo</span>
+            </div>
+          </div>
+        </div>
+      </aside>
+    </section>
+  </main>
+
+  <script src="/js/cart.js"></script>
+  <script>
+    const detailAddBtn = document.getElementById("detailAddBtn");
+    const detailFavBtn = document.getElementById("detailFavBtn");
+    const qtyInput = document.getElementById("detailQty");
+    const qtyMinus = document.getElementById("qtyMinus");
+    const qtyPlus = document.getElementById("qtyPlus");
+    const maxStock = <%= producto.stock > 0 ? producto.stock : 1 %>;
+
+    qtyMinus?.addEventListener("click", () => {
+      if (!qtyInput || qtyInput.disabled) return;
+      const current = Number(qtyInput.value || 1);
+      qtyInput.value = Math.max(1, current - 1);
+    });
+
+    qtyPlus?.addEventListener("click", () => {
+      if (!qtyInput || qtyInput.disabled) return;
+      const current = Number(qtyInput.value || 1);
+      qtyInput.value = Math.min(maxStock, current + 1);
+    });
+
+    qtyInput?.addEventListener("input", () => {
+      let value = Number(qtyInput.value || 1);
+      if (Number.isNaN(value) || value < 1) value = 1;
+      if (value > maxStock) value = maxStock;
+      qtyInput.value = value;
+    });
+
+    detailAddBtn?.addEventListener("click", () => {
+      const qty = Number(qtyInput?.value || 1);
+
+      window.Cart?.addItem({
+        id: detailAddBtn.dataset.id,
+        name: detailAddBtn.dataset.name,
+        price: Number(detailAddBtn.dataset.price || 0),
+        img: detailAddBtn.dataset.img,
+        pres: detailAddBtn.dataset.pres,
+        qty
+      });
+    });
+
+    detailFavBtn?.addEventListener("click", () => {
+      document.dispatchEvent(new CustomEvent("toggle-product-favorite", {
+        detail: {
+          id: detailFavBtn.dataset.id,
+          name: detailFavBtn.dataset.name
+        }
+      }));
+    });
+  </script>
+
+  <%- include("../partials/footer") %>
+  <%- include("../partials/cartDrawer") %>
+  <script type="module" src="/js/favoritos.js"></script>
+  <script src="/js/search-autocomplete.js"></script>
+</body>
+</html>

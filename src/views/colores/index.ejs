@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title><%= title %></title>
+  <link rel="stylesheet" href="/css/styles.css" />
+</head>
+<body>
+
+  <%- include("../partials/siteHeader", {
+    topNav,
+    activePath,
+    disableSearchSubmit,
+    searchInputId,
+    searchQuery,
+    searchProducts
+  }) %>
+
+  <main class="container page">
+    <header class="pageHead">
+      <p class="sectionKicker">Carta de color</p>
+      <h1 class="pageTitle">Colores disponibles</h1>
+      <p class="pageSubtitle">
+        Explora los colores reales disponibles en los productos del catálogo y entra directamente a los productos relacionados.
+      </p>
+    </header>
+
+    <section class="colorsLayout">
+      <aside class="colorsFilters">
+        <div class="colorsFilters__card">
+          <h3 class="colorsFilters__title">Categorías</h3>
+
+          <div class="colorsChips">
+            <% categorias.forEach(cat => { %>
+              <a
+                href="/colores?cat=<%= cat.key %><%= q ? `&q=${encodeURIComponent(q)}` : '' %>"
+                class="colorsChip <%= categoriaActiva === cat.key ? 'is-active' : '' %>"
+              >
+                <%= cat.label %>
+              </a>
+            <% }) %>
+          </div>
+
+          <form class="colorsSearch" method="GET" action="/colores">
+            <input type="hidden" name="cat" value="<%= categoriaActiva %>" />
+            <input
+              type="search"
+              name="q"
+              value="<%= q %>"
+              placeholder="Buscar color..."
+              class="colorsSearch__input"
+            />
+            <button type="submit" class="btnPrimary">Buscar</button>
+          </form>
+        </div>
+      </aside>
+
+      <div class="colorsContent">
+        <div class="colorsSummary">
+          <strong><%= colores.length %></strong> colores encontrados
+        </div>
+
+        <div class="colorsGrid">
+          <% if (colores.length) { %>
+            <% colores.forEach(color => { %>
+              <article class="colorCardPro">
+                <div class="colorCardPro__swatch" style="background:<%= color.hex %>;"></div>
+
+                <div class="colorCardPro__body">
+                  <div class="colorCardPro__top">
+                    <h3 class="colorCardPro__title"><%= color.nombre %></h3>
+                    <span class="colorCardPro__count"><%= color.totalProductos %> producto(s)</span>
+                  </div>
+
+                  <p class="colorCardPro__category">
+                    <%= categorias.find(c => c.key === color.categoria)?.label || color.categoria %>
+                  </p>
+
+                  <% if (color.productos.length) { %>
+                    <div class="colorCardPro__products">
+                      <% color.productos.forEach(prod => { %>
+                        <a href="/productos/<%= prod.id %>" class="miniProduct">
+                          <img src="<%= prod.img %>" alt="<%= prod.nombre %>" class="miniProduct__img" />
+                          <div class="miniProduct__info">
+                            <strong><%= prod.nombre %></strong>
+                            <span><%= prod.linea %></span>
+                          </div>
+                        </a>
+                      <% }) %>
+                    </div>
+                  <% } %>
+
+                  <div class="colorCardPro__actions">
+                    <a href="/productos?color=<%= color.slug %>" class="btnPrimary">
+                      Ver productos con este color
+                    </a>
+                  </div>
+                </div>
+              </article>
+            <% }) %>
+          <% } else { %>
+            <div class="emptyState">
+              <h3>No se encontraron colores</h3>
+              <p>Prueba con otra categoría o cambia tu búsqueda.</p>
+            </div>
+          <% } %>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <%- include("../partials/footer") %>
+<%- include("../partials/cartDrawer") %>
+<script src="/js/cart.js"></script>
+  <script src="/js/search-autocomplete.js"></script>
+</body>
+</html>

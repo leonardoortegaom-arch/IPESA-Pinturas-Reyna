@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title><%= title %></title>
+  <link rel="stylesheet" href="/css/styles.css" />
+</head>
+<body>
+
+  <%- include("../partials/siteHeader", {
+    topNav,
+    activePath,
+    disableSearchSubmit,
+    searchInputId,
+    searchQuery,
+    searchProducts
+  }) %>
+
+  <main class="container page">
+    <header class="pageHead">
+      <p class="sectionKicker">Nuestra ubicación</p>
+      <p class="pageSubtitle">
+        Encuentra nuestra ubicación y conoce los datos principales del punto de venta para visitarnos fácilmente.
+      </p>
+    </header>
+
+    <section class="branchHero">
+      <div class="branchHero__info">
+        <div class="branchHero__card">
+          <span class="branchBadge">Sucursal</span>
+          <h2 class="branchTitle"><%= sucursal.nombre %></h2>
+          <p class="branchText">
+            Visítanos en nuestra sucursal ubicada en Nezahualcóyotl, Estado de México.
+            Aquí podrás ubicar rápidamente la dirección, teléfonos y acceso al mapa.
+          </p>
+
+          <div class="branchData">
+            <div class="branchData__item">
+              <h3>Dirección</h3>
+              <p><%= sucursal.direccion %></p>
+            </div>
+
+            <div class="branchData__item">
+              <h3>Teléfonos</h3>
+              <% sucursal.telefonos.forEach(tel => { %>
+                <p><a href="tel:<%= tel.replace(/\s/g, '') %>"><%= tel %></a></p>
+              <% }) %>
+            </div>
+
+            <div class="branchData__item">
+              <h3>Horario</h3>
+              <p><%= sucursal.horario %></p>
+            </div>
+
+            <div class="branchData__item">
+              <h3>Referencia</h3>
+              <p><%= sucursal.referencia %></p>
+            </div>
+          </div>
+
+          <div class="branchActions">
+            <a href="<%= sucursal.mapsUrl %>" target="_blank" rel="noopener noreferrer" class="btnPrimary">
+              Ver en Google Maps
+            </a>
+            <a href="/productos" class="btnGhost">
+              Ver productos
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="branchHero__map">
+        <div class="branchMapCard">
+          <iframe
+            title="Mapa de IPESA Pinturas Reyna"
+            src="https://www.google.com/maps?q=<%= sucursal.coordenadas.lat %>,<%= sucursal.coordenadas.lng %>&z=17&output=embed"
+            loading="lazy"
+            allowfullscreen
+            referrerpolicy="no-referrer-when-downgrade">
+          </iframe>
+        </div>
+      </div>
+    </section>
+
+    <section class="branchExtra">
+      <article class="branchExtra__card">
+        <h2>¿Cómo llegar?</h2>
+        <p>
+          Puedes abrir la ubicación directamente en Google Maps para obtener la ruta desde tu ubicación actual.
+        </p>
+      </article>
+
+      <article class="branchExtra__card">
+        <h2>Atención al cliente</h2>
+        <p>
+          Si deseas conocer disponibilidad de productos, colores o documentación técnica, también puedes navegar
+          por el catálogo del sitio antes de visitar la sucursal.
+        </p>
+      </article>
+    </section>
+  </main>
+
+  <%- include("../partials/footer") %>
+  <%- include("../partials/cartDrawer") %>
+<script src="/js/cart.js"></script>
+  <script src="/js/search-autocomplete.js"></script>
+</body>
+</html>

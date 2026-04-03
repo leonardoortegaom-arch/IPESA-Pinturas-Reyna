@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Aviso de Privacidad</title>
+  <link rel="stylesheet" href="/css/styles.css" />
+</head>
+<body>
+
+  <%- include("../partials/siteHeader", {
+    topNav,
+    activePath: null,
+    disableSearchSubmit: false,
+    searchInputId,
+    searchQuery,
+    searchProducts
+  }) %>
+
+  <main class="container legalPage">
+    <header class="legalPage__head">
+      <p class="legalPage__kicker">Información legal</p>
+      <h1 class="legalPage__title">Aviso de Privacidad</h1>
+      <p class="legalPage__intro">
+        En cumplimiento con la normativa aplicable en materia de protección de datos personales,
+        este aviso tiene como finalidad informarte la forma en que se recaban, utilizan,
+        almacenan y protegen los datos personales proporcionados a través de este sitio web.
+      </p>
+    </header>
+
+    <section class="legalPage__section">
+      <h2>1. Responsable del tratamiento de datos personales</h2>
+      <p>
+        La información personal recabada a través de este sitio será tratada de manera responsable
+        por la entidad titular de la plataforma, con el propósito de brindar atención a usuarios,
+        proporcionar información sobre productos y servicios, así como dar seguimiento a solicitudes
+        realizadas por medio de formularios, registros o canales de contacto.
+      </p>
+    </section>
+
+    <section class="legalPage__section">
+      <h2>2. Datos personales recabados</h2>
+      <p>
+        Los datos que podrán solicitarse incluyen, de manera enunciativa mas no limitativa:
+        nombre, correo electrónico, número telefónico, domicilio, datos de facturación y cualquier
+        otra información que el usuario proporcione voluntariamente al utilizar los servicios del sitio.
+      </p>
+    </section>
+
+    <section class="legalPage__section">
+      <h2>3. Finalidades del tratamiento</h2>
+      <p>Los datos personales podrán ser utilizados para las siguientes finalidades:</p>
+      <ul class="legalPage__list">
+        <li>Brindar atención a solicitudes, comentarios, dudas o aclaraciones.</li>
+        <li>Dar seguimiento a cotizaciones, pedidos o solicitudes de información.</li>
+        <li>Compartir información sobre productos, servicios, promociones o novedades.</li>
+        <li>Mejorar la experiencia del usuario dentro de la plataforma.</li>
+        <li>Cumplir obligaciones legales y administrativas aplicables.</li>
+      </ul>
+    </section>
+
+    <section class="legalPage__section">
+      <h2>4. Uso de la información</h2>
+      <p>
+        La información proporcionada será utilizada únicamente para los fines descritos en este aviso
+        y será tratada bajo medidas razonables de seguridad administrativas, técnicas y organizativas,
+        buscando evitar su daño, pérdida, alteración, destrucción o acceso no autorizado.
+      </p>
+    </section>
+
+    <section class="legalPage__section">
+      <h2>5. Transferencia de datos</h2>
+      <p>
+        Los datos personales no serán compartidos con terceros sin consentimiento del titular,
+        salvo en los casos previstos por la legislación aplicable o cuando sea necesario para el
+        cumplimiento de obligaciones legales, contractuales o requerimientos de autoridad competente.
+      </p>
+    </section>
+
+    <section class="legalPage__section">
+      <h2>6. Derechos del titular</h2>
+      <p>
+        El titular de los datos personales podrá solicitar el acceso, rectificación, cancelación
+        u oposición respecto del tratamiento de su información personal, de conformidad con la
+        legislación aplicable. Asimismo, podrá solicitar la limitación del uso o divulgación
+        de sus datos cuando resulte procedente.
+      </p>
+    </section>
+
+    <section class="legalPage__section">
+      <h2>7. Uso de cookies y tecnologías similares</h2>
+      <p>
+        Este sitio podrá utilizar cookies o tecnologías similares con la finalidad de mejorar
+        la navegación, obtener estadísticas de uso y optimizar la experiencia del usuario.
+        El navegador puede configurarse para rechazar estas tecnologías, aunque ello podría
+        afectar algunas funcionalidades del sitio.
+      </p>
+    </section>
+
+    <section class="legalPage__section">
+      <h2>8. Cambios al aviso de privacidad</h2>
+      <p>
+        El presente aviso de privacidad podrá ser modificado o actualizado en cualquier momento
+        para atender cambios legales, administrativos, tecnológicos o de operación del sitio.
+        Cualquier modificación se dará a conocer a través de esta misma sección.
+      </p>
+    </section>
+
+    <section class="legalPage__section">
+      <h2>9. Contacto</h2>
+      <p>
+        Para dudas, comentarios o solicitudes relacionadas con este aviso de privacidad, el usuario
+        podrá comunicarse a través de los medios de contacto publicados en el sitio web oficial.
+      </p>
+    </section>
+  </main>
+
+  <%- include("../partials/cartDrawer") %>
+  <script src="/js/cart.js"></script>
+  <%- include("../partials/footer") %>
+
+  <script src="/js/search-autocomplete.js"></script>
+</body>
+</html>

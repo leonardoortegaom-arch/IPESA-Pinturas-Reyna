@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title><%= title %></title>
+  <link rel="stylesheet" href="/css/styles.css" />
+</head>
+<body>
+
+  <%- include("../partials/siteHeader", {
+    topNav,
+    activePath: "/productos",
+    disableSearchSubmit: false,
+    searchInputId: "searchInput",
+    searchQuery,
+    searchProducts
+  }) %>
+
+  <main class="container page">
+    <header class="pageHead">
+      <h1 class="pageTitle">Productos</h1>
+      <p class="pageSubtitle">Encuentra productos por categoría y uso. Usa filtros para hacerlo más rápido.</p>
+    </header>
+
+    <div class="chips" id="chips">
+      <button class="chip chip--active" data-chip="all" type="button">Todos</button>
+      <% categorias.forEach(c => { %>
+        <button class="chip" data-chip="<%= c.key %>" type="button"><%= c.label %></button>
+      <% }) %>
+    </div>
+
+    <section class="catalog">
+      <aside class="filters" aria-label="Filtros">
+        <div class="filters__block">
+          <h3 class="filters__title">Categoría</h3>
+          <select class="filters__select" id="categorySelect">
+            <option value="all">Todas</option>
+            <% categorias.forEach(c => { %>
+              <option value="<%= c.key %>"><%= c.label %></option>
+            <% }) %>
+          </select>
+        </div>
+
+        <div class="filters__block">
+          <h3 class="filters__title">Uso</h3>
+          <select class="filters__select" id="useSelect">
+            <option value="all">Cualquiera</option>
+            <% usos.forEach(u => { %>
+              <option value="<%= u.key %>"><%= u.label %></option>
+            <% }) %>
+          </select>
+        </div>
+
+        <div class="filters__block">
+          <h3 class="filters__title">Ordenar</h3>
+          <select class="filters__select" id="sortSelect">
+            <option value="featured">Destacados</option>
+            <option value="az">A – Z</option>
+            <option value="za">Z – A</option>
+            <option value="pLow">Precio: menor a mayor</option>
+            <option value="pHigh">Precio: mayor a menor</option>
+          </select>
+        </div>
+
+        <div class="filters__block">
+          <button class="btnReset" id="resetFilters" type="button">Limpiar filtros</button>
+        </div>
+      </aside>
+
+      <div class="catalog__content">
+        <% if (colorFilter) { %>
+          <div class="activeFilterBar">
+            <span>
+              Mostrando productos filtrados por color:
+              <strong><%= selectedColorName || colorFilter %></strong>
+            </span>
+            <a href="/productos" class="btnGhost">Quitar filtro</a>
+          </div>
+        <% } %>
+
+        <div class="productsGrid" id="productGrid">
+          <% productos.forEach(p => { %>
+            <article class="card"
+              data-id="<%= p.id %>"
+              data-name="<%= p.nombre.toLowerCase() %>"
+              data-cat="<%= p.categoria %>"
+              data-use="<%= p.uso %>"
+              data-price="<%= p.precio %>"
+              data-label="<%= p.etiqueta %>"
+              data-pres="<%= p.presentacion %>"
+              data-colors="<%= Array.isArray(p.colores) ? p.colores.length : 0 %>"
+              data-stock="<%= p.stock %>"
+              data-desc="<%= p.descripcion.replace(/"/g,'&quot;') %>"
+              data-img="<%= p.img %>"
+              data-ficha="<%= p.fichaTecnicaUrl %>"
+            >
+              <div class="card__imgWrap">
+                <a href="/productos/<%= p.id %>">
+                  <img class="card__img" src="<%= p.img %>" alt="<%= p.nombre %>" />
+                </a>
+                <span class="card__tag"><%= p.etiqueta %></span>
+              </div>
+
+              <div class="card__body">
+                <h3 class="card__title">
+                  <a href="/productos/<%= p.id %>" class="card__link"><%= p.nombre %></a>
+                </h3>
+
+                <p class="card__meta">
+                  <%= p.presentacion %> · <span class="muted"><%= p.uso.replace('_','/') %></span>
+                </p>
+
+                <div class="card__row">
+                  <div class="price">
+                    $ <%= Number(p.precio || 0).toLocaleString("es-MX", {
+                      minimumFractionDigits: 2,
+                      maximumFractionDigits: 2
+                    }) %>
+                  </div>
+
+                  <div class="stockBadge">
+                    <% if (p.stock > 0) { %>
+                      Disponible: <strong><%= p.stock %></strong>
+                    <% } else { %>
+                      Agotado
+                    <% } %>
+                  </div>
+                </div>
+
+                <div class="card__actions">
+                  <a class="btnGhost" href="/productos/<%= p.id %>">Ver más</a>
+
+                  <button
+                    class="btnPrimary"
+                    type="button"
+                    data-add
+                    data-id="<%= p.id %>"
+                    data-name="<%= p.nombre %>"
+                    data-price="<%= p.precio %>"
+                    data-img="<%= p.img %>"
+                    data-pres="<%= p.presentacion %>"
+                    <%= p.stock <= 0 ? "disabled" : "" %>
+                  >
+                    <%= p.stock > 0 ? "Agregar" : "Sin stock" %>
+                  </button>
+                </div>
+              </div>
+            </article>
+          <% }) %>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div class="modal" id="quickModal" aria-hidden="true">
+    <div class="modal__backdrop" data-close></div>
+    <div class="modal__panel" role="dialog" aria-modal="true" aria-label="Vista rápida de producto">
+      <button class="modal__close" type="button" data-close aria-label="Cerrar">✕</button>
+      <div class="modal__grid">
+        <div class="modal__media">
+          <img id="qmImg" src="" alt="" />
+        </div>
+        <div class="modal__content">
+          <div class="modal__badge" id="qmTag"></div>
+          <h2 class="modal__title" id="qmTitle"></h2>
+          <p class="modal__desc" id="qmDesc"></p>
+
+          <div class="modal__facts">
+            <div><span class="muted">Presentación:</span> <strong id="qmPres"></strong></div>
+            <div><span class="muted">Colores:</span> <strong id="qmColors"></strong></div>
+            <div><span class="muted">Precio:</span> <strong id="qmPrice"></strong></div>
+            <div><span class="muted">Stock:</span> <strong id="qmStock"></strong></div>
+          </div>
+
+          <div class="modal__actions">
+            <button
+              class="btnPrimary"
+              type="button"
+              id="qmAdd"
+            >
+              Agregar al carrito
+            </button>
+
+            <a class="btnGhost" href="#" id="qmFicha" target="_blank" rel="noopener noreferrer">
+              Ver ficha técnica
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    window.__CATALOG__ = <%- JSON.stringify(productos) %>;
+  </script>
+
+  <%- include("../partials/footer") %>
+  <%- include("../partials/cartDrawer") %>
+
+  <script src="/js/cart.js"></script>
+  <script type="module" src="/js/productos.js"></script>
+  <script src="/js/search-autocomplete.js"></script>
+</body>
+</html>

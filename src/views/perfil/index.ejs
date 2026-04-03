@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Mi perfil</title>
+  <link rel="stylesheet" href="/css/styles.css"/>
+</head>
+<body>
+
+<%- include("../partials/siteHeader", {
+  topNav,
+  activePath,
+  disableSearchSubmit,
+  searchInputId,
+  searchQuery,
+  searchProducts
+}) %>
+
+<main class="accountPage container">
+  <h1 class="accountPage__title">Mi cuenta</h1>
+
+  <section class="accountLayout">
+    <!-- Menú lateral -->
+    <aside class="accountSide">
+      <button class="accountSide__item is-active" data-panel="perfil">Mi perfil</button>
+      <button class="accountSide__item" data-panel="cuenta">Datos de la cuenta</button>
+      <button class="accountSide__item" data-panel="seguridad">Seguridad</button>
+      <button class="accountSide__item" data-panel="favoritos">Favoritos</button>
+      <button class="accountSide__item" data-panel="compras">Mis compras</button>
+
+      <div class="accountSide__sep"></div>
+      <button class="accountSide__logout" id="logoutBtnProfile">Cerrar sesión</button>
+    </aside>
+
+    <!-- Contenido -->
+    <div class="accountContent">
+      <!-- MI PERFIL -->
+      <div class="accountPanel is-active" id="panel-perfil">
+        <h2>Mi perfil</h2>
+        <p class="muted">Aquí verás tu información personal registrada.</p>
+
+        <div id="noticeCompletar" class="profileNotice" style="display:none;">
+  Completa tu domicilio para mantener tu perfil actualizado.
+</div>
+
+        <div class="card">
+ <div class="mlSection">
+  <h2 class="mlTitle">Datos personales</h2>
+
+  <!-- Card: Identidad / Nombre -->
+  <div class="mlCard">
+    <div class="mlCard__status">
+      <span class="mlOkDot">✓</span>
+      <span class="mlOkText">Identidad validada</span>
+    </div>
+
+    <div class="mlGrid2">
+      <div class="mlField">
+        <div class="mlLabel">Nombre y apellido</div>
+        <div class="mlValue" id="v_nombre">—</div>
+      </div>
+
+      <div class="mlField">
+        <div class="mlLabel">Teléfono</div>
+        <div class="mlValue" id="v_telefono">—</div>
+      </div>
+    </div>
+
+    <div class="mlActions">
+      <button class="mlBtn" type="button" data-edit="identidad">Modificar</button>
+    </div>
+
+    <!-- Edit box -->
+    <form class="mlEdit" id="edit_identidad" style="display:none;">
+      <div class="mlGrid2">
+        <div class="mlField">
+          <label class="mlLabel">Nombre y apellidos</label>
+          <input class="mlInput" type="text" id="pf_nombre" required />
+        </div>
+
+        <div class="mlField">
+          <label class="mlLabel">Teléfono</label>
+          <input class="mlInput" type="tel" id="pf_telefono" required />
+        </div>
+      </div>
+
+      <div class="mlEditActions">
+        <button class="mlBtnPrimary" type="submit" id="pf_saveIdentity">Guardar</button>
+        <button class="mlBtnGhost" type="button" data-cancel="identidad">Cancelar</button>
+        <span class="mlMsg" id="pf_msg"></span>
+      </div>
+    </form>
+  </div>
+
+  <!-- Card: Datos de cuenta (solo lectura) -->
+  <div class="mlCard">
+    <div class="mlGrid1">
+      <div class="mlField">
+        <div class="mlLabel">Correo</div>
+        <div class="mlValue" id="v_email">—</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Card: Domicilio -->
+ <!-- Card: Domicilio (estilo MercadoLibre) -->
+<div class="mlCard">
+  <div class="mlGrid1">
+    <div class="mlField">
+      <div class="mlLabel">Domicilio particular</div>
+      <div class="mlValue" id="v_domicilio">Aún no has agregado domicilio.</div>
+    </div>
+  </div>
+
+  <div class="mlActions">
+    <button class="mlBtn" type="button" data-edit="domicilio">Modificar</button>
+  </div>
+
+  <!-- FORM ML -->
+  <form class="mlEdit" id="edit_domicilio" style="display:none;">
+    <h3 class="mlEditTitle">¿Dónde vives?</h3>
+
+    <div class="mlAddressGrid">
+
+    <!-- CP -->
+<div class="mlField mlCpWrap">
+  <label class="mlLabel">Código postal</label>
+  <div class="mlCpRow">
+    <input class="mlInput" type="text" id="pf_cp" inputmode="numeric" maxlength="5" placeholder="00000" />
+    <button class="mlLinkBtn" type="button" id="noCpBtn">No sé mi código</button>
+  </div>
+  <small class="mlHint">Ingresa un código postal de México.</small>
+
+  <div class="mlGeoWrap">
+  <button class="mlBtn" type="button" id="useLocationBtn">Usar mi ubicación actual</button>
+</div>
+</div>
+      <!-- Calle -->
+      <div class="mlField">
+        <label class="mlLabel">Calle</label>
+        <input class="mlInput" type="text" id="pf_calle" placeholder="Calle" />
+      </div>
+
+      <!-- Número exterior + sin número -->
+      <div class="mlField">
+        <label class="mlLabel">Número externo</label>
+        <div class="mlNumRow">
+          <input class="mlInput" type="text" id="pf_numExt" placeholder="Número externo" />
+          <label class="mlCheck">
+            <input type="checkbox" id="pf_sinNum" />
+            <span>Sin número</span>
+          </label>
+        </div>
+      </div>
+
+      <!-- Colonia  -->
+      <div class="mlField">
+        <label class="mlLabel">Colonia</label>
+        <input class="mlInput" type="text" id="pf_colonia" placeholder="Colonia" />
+      </div>
+
+      <!-- Número interno -->
+      <div class="mlField">
+        <label class="mlLabel">Número interno (opcional)</label>
+        <input class="mlInput" type="text" id="pf_numInt" placeholder="Ejemplo: Piso 8, depto 6" />
+      </div>
+
+      <!-- Municipio (bloqueado) -->
+      <div class="mlField">
+        <label class="mlLabel">Municipio</label>
+        <input class="mlInput mlInput--disabled" type="text" id="pf_municipio" placeholder="Municipio" disabled />
+      </div>
+
+      <!-- Estado (bloqueado) -->
+      <div class="mlField">
+        <label class="mlLabel">Estado</label>
+        <input class="mlInput mlInput--disabled" type="text" id="pf_estado" placeholder="Estado" disabled />
+      </div>
+
+      <!-- Referencias -->
+      <div class="mlField mlFull">
+        <label class="mlLabel">Referencias (opcional)</label>
+        <input class="mlInput" type="text" id="pf_referencias" placeholder="Entre qué calles / color de casa / etc." />
+      </div>
+    </div>
+
+    <div class="mlEditActions mlEditActions--right">
+      <button class="mlBtnPrimary" type="submit" id="pf_saveAddress">Continuar</button>
+      <button class="mlBtnGhost" type="button" data-cancel="domicilio">Cancelar</button>
+    </div>
+  </form>
+</div>
+        
+        </div>
+      </div>
+      </div>
+      <!-- DATOS DE LA CUENTA -->
+      <div class="accountPanel" id="panel-cuenta">
+        <h2>Datos de la cuenta</h2>
+        <p class="muted">Información técnica de tu cuenta.</p>
+
+        <div class="card">
+          <div id="cuentaBox">Cargando...</div>
+        </div>
+      </div>
+
+     <!-- SEGURIDAD -->
+<div class="accountPanel" id="panel-seguridad">
+  <h2>Seguridad</h2>
+  <p class="muted">Administra la verificación de tu correo y tu contraseña.</p>
+
+  <div class="card">
+    <div class="mlSection">
+      <!-- Estado del correo -->
+      <div class="mlCard">
+        <div class="mlField">
+          <div class="mlLabel">Estado del correo</div>
+          <div class="mlValue" id="emailStatus">Cargando...</div>
+          <small class="mlHint" id="emailHint">
+            Verifica tu correo para mayor seguridad en tu cuenta.
+          </small>
+        </div>
+
+        <div class="mlActions">
+          <button class="mlBtn" type="button" id="sendVerificationBtn">
+            Enviar correo de verificación
+          </button>
+        </div>
+      </div>
+
+      <!-- Cambiar contraseña -->
+      <div class="mlCard">
+        <h3 class="mlEditTitle">Cambiar contraseña</h3>
+
+        <form id="securityForm">
+          <div class="mlAddressGrid">
+            <div class="mlField mlFull">
+              <label class="mlLabel">Contraseña actual</label>
+              <input
+                class="mlInput"
+                type="password"
+                id="currentPassword"
+                placeholder="Escribe tu contraseña actual"
+                autocomplete="current-password"
+              />
+              <small class="mlHint">
+                Necesario para reautenticación antes de cambiar la contraseña.
+              </small>
+            </div>
+
+            <div class="mlField">
+              <label class="mlLabel">Nueva contraseña</label>
+              <input
+                class="mlInput"
+                type="password"
+                id="newPassword"
+                placeholder="Nueva contraseña"
+                autocomplete="new-password"
+              />
+            </div>
+
+            <div class="mlField">
+              <label class="mlLabel">Confirmar nueva contraseña</label>
+              <input
+                class="mlInput"
+                type="password"
+                id="confirmPassword"
+                placeholder="Confirma tu nueva contraseña"
+                autocomplete="new-password"
+              />
+            </div>
+          </div>
+
+          <div class="mlEditActions">
+            <button class="mlBtnPrimary" type="submit" id="btnChangePassword">
+              Actualizar contraseña
+            </button>
+            <span class="mlMsg" id="securityMsg"></span>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+      <!-- FAVORITOS -->
+      <div class="accountPanel" id="panel-favoritos">
+        <h2>Favoritos</h2>
+        <div class="card">
+          <p><b>Estado:</b> Cargando</p>
+        </div>
+      </div>
+
+      <!-- COMPRAS -->
+      <div class="accountPanel" id="panel-compras">
+        <h2>Mis compras</h2>
+        <p class="muted">Historial de compras y seguimiento.</p>
+        <div class="card">
+          <p><b>Estado:</b> Inactivo</p>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<script type="module" src="/js/firebase-init.js"></script>
+<script type="module" src="/js/profile.js"></script>
+<script type="module" src="/js/favoritos.js"></script>
+
+<%- include("../partials/cartDrawer") %>
+<script src="/js/cart.js"></script>
+
+  <%- include('../partials/footer') %>
+  <script src="/js/search-autocomplete.js"></script>
+
+</body>
+</html>
